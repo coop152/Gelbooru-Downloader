@@ -1,4 +1,4 @@
-﻿namespace R34Downloader.Logic
+﻿namespace GelbooruDownloader.Logic
 {
     public static class Transfer
     {

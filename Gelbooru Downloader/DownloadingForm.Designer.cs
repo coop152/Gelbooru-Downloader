@@ -1,6 +1,6 @@
-﻿using R34Downloader.Properties;
+﻿using GelbooruDownloader.Properties;
 
-namespace R34Downloader
+namespace GelbooruDownloader
 {
     partial class DownloadingForm
     {
@@ -179,7 +179,7 @@ namespace R34Downloader
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::R34Downloader.Properties.Resources.r34chibi;
+            this.pictureBox1.Image = global::GelbooruDownloader.Properties.Resources.r34chibi;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(108, 151);

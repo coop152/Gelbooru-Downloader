@@ -1,8 +1,8 @@
-﻿using R34Downloader.Logic;
+﻿using GelbooruDownloader.Logic;
 using System;
 using System.Windows.Forms;
 
-namespace R34Downloader
+namespace GelbooruDownloader
 {
     public partial class DownloadingForm : Form
     {

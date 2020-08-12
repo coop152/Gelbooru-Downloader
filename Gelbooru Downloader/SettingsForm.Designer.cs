@@ -1,4 +1,4 @@
-﻿namespace R34Downloader
+﻿namespace GelbooruDownloader
 {
     partial class SettingsForm
     {

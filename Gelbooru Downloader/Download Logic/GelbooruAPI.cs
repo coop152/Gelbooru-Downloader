@@ -3,16 +3,15 @@ using System.IO;
 using System.Net;
 using System.Xml;
 
-namespace R34Downloader.Logic
+namespace GelbooruDownloader.Logic
 {
-    public static class R34API
+    public static class GelbooruAPI
     {
-        public static string MainRequestPath { get => "https://rule34.xxx/index.php?page=dapi&s=post&q=index"; }
 
         public static int GetCountContent(string request)
         {
             XmlDocument doc = new XmlDocument();
-            doc.Load(MainRequestPath + "&tags=" + request);
+            doc.Load(Paths.ApiRequestPath + "&tags=" + request);
             return Convert.ToInt32(doc.DocumentElement.Attributes[0].Value);
         }
 
@@ -22,7 +21,7 @@ namespace R34Downloader.Logic
             for (int pid = 0; pid <= maxPid; pid++)
             {
                 XmlDocument doc = new XmlDocument();
-                doc.Load(MainRequestPath + "&tags=" + request + "&pid=" + pid);
+                doc.Load(Paths.ApiRequestPath + "&tags=" + request + "&pid=" + pid);
                 XmlElement root = doc.DocumentElement;
 
                 int postCount = quantity - pid * 100 < 100 ? quantity - pid * 100 : 100;

@@ -5,18 +5,17 @@ using System.IO;
 using System.Linq;
 using System.Net;
 
-namespace R34Downloader.Logic
+namespace GelbooruDownloader.Logic
 {
-    public static class R34Parser
+    public static class GelbooruParser
     {
-        public static string MainRequestPath { get => "https://rule34.xxx/index.php?page=post&s=list&tags="; }
         public static int PidValue { get => 42; }
 
         public static HtmlWeb web = new HtmlWeb();
 
         public static bool IsSomethingFound(string request)
         {
-            HtmlDocument doc = web.Load(MainRequestPath + request);
+            HtmlDocument doc = web.Load(Paths.WebRequestPath + request);
             HtmlNodeCollection nodes = doc.DocumentNode.SelectNodes("//div[@class='content']//span[@class='thumb']");
 
             if (nodes == null)
@@ -31,7 +30,7 @@ namespace R34Downloader.Logic
 
         public static int GetMaxPid(string request)
         {
-            HtmlDocument doc = web.Load(MainRequestPath + request);
+            HtmlDocument doc = web.Load(Paths.WebRequestPath + request);
             HtmlNode nodes = doc.DocumentNode.SelectSingleNode("//div[@class='pagination']//a[@alt='last page']");
 
             if (nodes == null)
@@ -47,7 +46,7 @@ namespace R34Downloader.Logic
 
         public static int GetCountContent(string request, int maxPid)
         {
-            HtmlDocument doc = web.Load(MainRequestPath + request + "&pid=" + maxPid);
+            HtmlDocument doc = web.Load(Paths.WebRequestPath + request + "&pid=" + maxPid);
             HtmlNodeCollection nodes = doc.DocumentNode.SelectNodes("//div[@class='content']//span[@class='thumb']/a");
             HtmlNodeCollection nodes2 = doc.DocumentNode.SelectNodes("//div[@class='content']/div/h1");
 
@@ -76,7 +75,7 @@ namespace R34Downloader.Logic
             }
             for (int pid = 0; pid < maxPages; pid += PidValue)
             {
-                HtmlDocument doc = web.Load(MainRequestPath + request + "&pid=" + pid);
+                HtmlDocument doc = web.Load(Paths.WebRequestPath + request + "&pid=" + pid);
                 HtmlNodeCollection nodes = doc.DocumentNode.SelectNodes("//div[@class='content']//span[@class='thumb']/a");
 
                 DownloadPosts(GetPostLinks(nodes), path, pid, residue, maxPages, progress, progress2);

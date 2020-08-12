@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace R34Downloader
+namespace GelbooruDownloader
 {
     static class Program
     {
