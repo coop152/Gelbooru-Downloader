@@ -37,13 +37,17 @@ namespace GelbooruDownloader.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://rule34.xxx/")]
-        public string BaseURL {
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>https://rule34.xxx/</string>
+  <string>https://furry.booru.org/</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection WebsitesJSON {
             get {
-                return ((string)(this["BaseURL"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["WebsitesJSON"]));
             }
             set {
-                this["BaseURL"] = value;
+                this["WebsitesJSON"] = value;
             }
         }
     }

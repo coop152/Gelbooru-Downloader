@@ -40,22 +40,26 @@
             this.rightStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.aboutButton = new System.Windows.Forms.Button();
             this.searchHelpButton = new System.Windows.Forms.Button();
-            this.settingsPictureBox = new System.Windows.Forms.PictureBox();
-            this.baseUrlTextBox = new System.Windows.Forms.TextBox();
             this.baseUrlLabel = new System.Windows.Forms.Label();
             this.tagsLabel = new System.Windows.Forms.Label();
+            this.sourceDropdown = new System.Windows.Forms.ComboBox();
+            this.modifySourcesButton = new System.Windows.Forms.Button();
+            this.settingsPictureBox = new System.Windows.Forms.PictureBox();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.settingsPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // tagsTextBox
             // 
+            this.tagsTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.tagsTextBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.tagsTextBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tagsTextBox.Location = new System.Drawing.Point(12, 99);
             this.tagsTextBox.Name = "tagsTextBox";
             this.tagsTextBox.Size = new System.Drawing.Size(487, 29);
             this.tagsTextBox.TabIndex = 1;
             this.tagsTextBox.Text = "overwatch animated";
+            this.tagsTextBox.TextChanged += new System.EventHandler(this.tagsTextBox_TextChanged);
             // 
             // SearchButton
             // 
@@ -77,10 +81,12 @@
             this.infoLabel.TabIndex = 100;
             this.infoLabel.Text = "This is an unofficial application. Uses the Gelbooru API.";
             this.infoLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.infoLabel.Click += new System.EventHandler(this.infoLabel_Click);
             // 
             // folderBrowserDialog
             // 
             this.folderBrowserDialog.Description = "Select the folder for the downloaded content";
+            this.folderBrowserDialog.HelpRequest += new System.EventHandler(this.folderBrowserDialog_HelpRequest);
             // 
             // downloadButton
             // 
@@ -106,6 +112,7 @@
             this.statusStrip.SizingGrip = false;
             this.statusStrip.TabIndex = 5;
             this.statusStrip.Text = "statusStrip1";
+            this.statusStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.statusStrip_ItemClicked);
             // 
             // leftStatusLabel
             // 
@@ -115,6 +122,7 @@
             this.leftStatusLabel.Name = "leftStatusLabel";
             this.leftStatusLabel.Size = new System.Drawing.Size(146, 17);
             this.leftStatusLabel.Text = "Downloading content...";
+            this.leftStatusLabel.Click += new System.EventHandler(this.leftStatusLabel_Click);
             // 
             // progressBar
             // 
@@ -128,6 +136,7 @@
             this.rightStatusLabel.Name = "rightStatusLabel";
             this.rightStatusLabel.Size = new System.Drawing.Size(95, 17);
             this.rightStatusLabel.Text = "12578 / 12542";
+            this.rightStatusLabel.Click += new System.EventHandler(this.rightStatusLabel_Click);
             // 
             // aboutButton
             // 
@@ -151,6 +160,49 @@
             this.searchHelpButton.UseVisualStyleBackColor = true;
             this.searchHelpButton.Click += new System.EventHandler(this.searchHelpButton_Click);
             // 
+            // baseUrlLabel
+            // 
+            this.baseUrlLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.baseUrlLabel.Location = new System.Drawing.Point(12, 9);
+            this.baseUrlLabel.Name = "baseUrlLabel";
+            this.baseUrlLabel.Size = new System.Drawing.Size(487, 26);
+            this.baseUrlLabel.TabIndex = 103;
+            this.baseUrlLabel.Text = "Booru";
+            this.baseUrlLabel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.baseUrlLabel.Click += new System.EventHandler(this.baseUrlLabel_Click);
+            // 
+            // tagsLabel
+            // 
+            this.tagsLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tagsLabel.Location = new System.Drawing.Point(12, 70);
+            this.tagsLabel.Name = "tagsLabel";
+            this.tagsLabel.Size = new System.Drawing.Size(487, 26);
+            this.tagsLabel.TabIndex = 104;
+            this.tagsLabel.Text = "Tags";
+            this.tagsLabel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.tagsLabel.Click += new System.EventHandler(this.tagsLabel_Click);
+            // 
+            // sourceDropdown
+            // 
+            this.sourceDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.sourceDropdown.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sourceDropdown.FormattingEnabled = true;
+            this.sourceDropdown.Location = new System.Drawing.Point(12, 38);
+            this.sourceDropdown.Name = "sourceDropdown";
+            this.sourceDropdown.Size = new System.Drawing.Size(452, 29);
+            this.sourceDropdown.TabIndex = 105;
+            this.sourceDropdown.SelectedIndexChanged += new System.EventHandler(this.sourceDropdown_SelectedIndexChanged);
+            // 
+            // modifySourcesButton
+            // 
+            this.modifySourcesButton.Location = new System.Drawing.Point(470, 38);
+            this.modifySourcesButton.Name = "modifySourcesButton";
+            this.modifySourcesButton.Size = new System.Drawing.Size(29, 29);
+            this.modifySourcesButton.TabIndex = 106;
+            this.modifySourcesButton.Text = "...";
+            this.modifySourcesButton.UseVisualStyleBackColor = true;
+            this.modifySourcesButton.Click += new System.EventHandler(this.modifySourcesButton_Click);
+            // 
             // settingsPictureBox
             // 
             this.settingsPictureBox.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -162,43 +214,16 @@
             this.settingsPictureBox.TabStop = false;
             this.settingsPictureBox.Click += new System.EventHandler(this.settingsPictureBox_Click);
             // 
-            // baseUrlTextBox
-            // 
-            this.baseUrlTextBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.baseUrlTextBox.Location = new System.Drawing.Point(12, 38);
-            this.baseUrlTextBox.Name = "baseUrlTextBox";
-            this.baseUrlTextBox.Size = new System.Drawing.Size(487, 29);
-            this.baseUrlTextBox.TabIndex = 102;
-            // 
-            // baseUrlLabel
-            // 
-            this.baseUrlLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.baseUrlLabel.Location = new System.Drawing.Point(12, 9);
-            this.baseUrlLabel.Name = "baseUrlLabel";
-            this.baseUrlLabel.Size = new System.Drawing.Size(487, 26);
-            this.baseUrlLabel.TabIndex = 103;
-            this.baseUrlLabel.Text = "Base URL";
-            this.baseUrlLabel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            // 
-            // tagsLabel
-            // 
-            this.tagsLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tagsLabel.Location = new System.Drawing.Point(12, 70);
-            this.tagsLabel.Name = "tagsLabel";
-            this.tagsLabel.Size = new System.Drawing.Size(487, 26);
-            this.tagsLabel.TabIndex = 104;
-            this.tagsLabel.Text = "Tags";
-            this.tagsLabel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(511, 267);
+            this.Controls.Add(this.modifySourcesButton);
+            this.Controls.Add(this.sourceDropdown);
             this.Controls.Add(this.tagsLabel);
             this.Controls.Add(this.baseUrlLabel);
-            this.Controls.Add(this.baseUrlTextBox);
             this.Controls.Add(this.settingsPictureBox);
             this.Controls.Add(this.searchHelpButton);
             this.Controls.Add(this.aboutButton);
@@ -237,8 +262,9 @@
         private System.Windows.Forms.ToolStripProgressBar progressBar;
         private System.Windows.Forms.ToolStripStatusLabel rightStatusLabel;
         private System.Windows.Forms.PictureBox settingsPictureBox;
-        private System.Windows.Forms.TextBox baseUrlTextBox;
         private System.Windows.Forms.Label baseUrlLabel;
         private System.Windows.Forms.Label tagsLabel;
+        private System.Windows.Forms.ComboBox sourceDropdown;
+        private System.Windows.Forms.Button modifySourcesButton;
     }
 }

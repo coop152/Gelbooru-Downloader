@@ -9,9 +9,9 @@ namespace GelbooruDownloader.Logic
 {
     static class Paths
     {
-        //public static string BasePath { get => "https://rule34.xxx/"; }
-        public static string BasePath { get; set; } = Settings.Default.BaseURL;
-        public static string ApiRequestPath { get => BasePath + "/index.php?page=dapi&s=post&q=index"; }
-        public static string WebRequestPath { get => BasePath + "/index.php?page=post&s=list&tags="; }
+        public static List<string> Sources { get; set; } // loaded from settings in InitWebsiteDropdown()
+        public static string BasePath { get; set; } // the base url associated with the current source
+        public static string ApiRequestPath { get => BasePath + "/index.php?page=dapi&s=post&q=index"; } //add format for API
+        public static string WebRequestPath { get => BasePath + "/index.php?page=post&s=list&tags="; } //add format for web request
     }
 }

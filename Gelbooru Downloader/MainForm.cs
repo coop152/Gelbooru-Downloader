@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GelbooruDownloader
 {
@@ -18,7 +20,7 @@ namespace GelbooruDownloader
         private void MainForm_Load(object sender, EventArgs e)
         {
             Transfer.IsAPI = true;
-            baseUrlTextBox.Text = Settings.Default.BaseURL;
+            InitWebsiteDropdown();
             leftStatusLabel.Text = "Welcome!";
             rightStatusLabel.Text = "0 / 0";
 
@@ -39,10 +41,15 @@ namespace GelbooruDownloader
             //    }
             //}
         }
-        private bool UpdateBaseUrl()
+        private void InitWebsiteDropdown()
         {
-            Uri uriResult;
-            bool isValid = Uri.TryCreate(baseUrlTextBox.Text.Trim('/'), UriKind.Absolute, out uriResult)
+            Paths.Sources = Settings.Default.WebsitesJSON.Cast<string>().ToList();
+            Paths.BasePath = Paths.Sources[0];
+            sourceDropdown.DataSource = Paths.Sources;
+        }
+        private bool ValidateUrl()
+        {
+            bool isValid = Uri.TryCreate(Paths.BasePath.Trim('/'), UriKind.Absolute, out Uri uriResult)
                 && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
             if (!isValid)
             {
@@ -52,15 +59,12 @@ namespace GelbooruDownloader
             }
             else
             {
-                Paths.BasePath = baseUrlTextBox.Text.Trim('/');
-                Settings.Default.BaseURL = baseUrlTextBox.Text.Trim('/');
-                Properties.Settings.Default.Save();
                 return true;
             }
         }
         private void searchButton_Click(object sender, EventArgs e) // Search Button
         {
-            if (!UpdateBaseUrl()) return;
+            if (!ValidateUrl()) return;
             try
             {
                 leftStatusLabel.Text = "Searching...";
@@ -110,14 +114,19 @@ namespace GelbooruDownloader
             }
             catch (Exception exp)
             {
+                string errorBody = exp.Message;
+                if (exp is WebException)
+                {
+                    errorBody += "\n(Is your base url correct?)";
+                }
                 leftStatusLabel.Text = "Search error";
-                MessageBox.Show(exp.Message, "Search error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(errorBody, "Search error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private async void downloadButton_Click(object sender, EventArgs e) // Download Button
         {
-            if (!UpdateBaseUrl()) return;
+            if (!ValidateUrl()) return;
             try
             {
                 string request = tagsTextBox.Text.Replace(' ', '+').Replace("*", "%2a");
@@ -202,8 +211,13 @@ namespace GelbooruDownloader
             }
             catch (Exception exp)
             {
+                string errorBody = exp.Message;
+                if (exp is WebException)
+                {
+                    errorBody += "\n(Is your base url correct?)";
+                }
                 leftStatusLabel.Text = "Download error";
-                MessageBox.Show(exp.Message, "Download error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(errorBody, "Download error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -214,8 +228,7 @@ namespace GelbooruDownloader
 
         private void searchHelpButton_Click(object sender, EventArgs e) // Help Button
         {
-            string searchHelpMessage = "You can use:\n'*' all,\n(' ' or '+') union,\n'-' remove;\n\nFor example:\n > \"rainbow *\" - search for all tags starting with \"rainbow\"\n      rainbow_dash_(mlp)\n      rainbow_fur\n      rainbow_tail\n\n > \"mercy pharah animated\" - posts where there is \"mercy\", \"pharah\" and \"animated\" at the same time\n     \"fallout+elizabeth\"\n\n > \"tomb_raider -dickgirl -zoophilia\" - posts where there is \"tomb_raider\", but no \"dickgirl\" and \"zoophilia\"";
-            MessageBox.Show(searchHelpMessage, "Search help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Process.Start("https://gelbooru.com/index.php?page=wiki&s=view&id=26263");
         }
 
         private void settingsPictureBox_Click(object sender, EventArgs e) // Settings Button
@@ -240,6 +253,57 @@ namespace GelbooruDownloader
             {
                 return false;
             }
+        }
+
+        private void modifySourcesButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void sourceDropdown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            Paths.BasePath = Paths.Sources[comboBox.SelectedIndex];
+        }
+
+        private void tagsTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void infoLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void folderBrowserDialog_HelpRequest(object sender, EventArgs e)
+        {
+
+        }
+
+        private void statusStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void leftStatusLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rightStatusLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void baseUrlLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tagsLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
